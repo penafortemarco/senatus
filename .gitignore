@@ -1,0 +1,16 @@
+# Virtual environment
+.venv/
+
+# Python bytecode and cache files
+__pycache__/
+*.pyc
+*.pyo
+
+# Build artifacts
+build/
+dist/
+*.egg-info
+
+# IDE specific files (optional, based on your environment)
+.vscode/
+.idea/
