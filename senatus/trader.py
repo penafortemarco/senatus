@@ -1,6 +1,7 @@
 import pandas as pd
-from .plot.plotting import Plotting
-from .dataTypes import Position
+from .data import PriceSeries
+from .plotting import Plotting
+from .data import Position
 from .strategies import Strategy
 
 
@@ -9,10 +10,10 @@ class TestTrader:
 
     def __init__( 
             self,
-            df: pd.DataFrame,
+            ps: PriceSeries,
             initial_margin: float
         ):
-        self.df = df
+        self.df = ps.candles
         self.initial_margin = initial_margin
         self.open_positions: list[Position] = []
 
@@ -28,27 +29,24 @@ class TestTrader:
             resp = strategy.check_condition(ind[0:i])
             if(resp.count('OPEN_LONG')):
                 pos = self.open_position(Position(
-                    basicPosition, 
-                    entry_price=self.df['Close'].iat[i],
+                    symbol='btcusd',
+                    is_open=True,
+                    type='spot',
+                    position_side='LONG',
+                    position_size=1,
+                    entry_price=self.df['close'].iat[i],
                     open_timeframe=self.df.index[i]
                 ))
                 plot.plotPosition(pos)
             if(resp.count('CLOSE_LONG')):
                 pos = self.open_position(Position(
-                    basicPosition,
+                    symbol='btcusd',
+                    is_open=True,
+                    type='spot',
                     position_side='SHORT',
-                    entry_price=self.df['Close'].iat[i],
+                    position_size=1,
+                    entry_price=self.df['close'].iat[i],
                     open_timeframe=self.df.index[i]
                 ))
                 plot.plotPosition(pos)
-
-
-basicPosition = {
-    'symbol': 'btcusdt',
-    'is_open': True,
-    'type': 'Spot',
-    'position_side': 'LONG',
-    'position_size': 1,
-}   
-
         

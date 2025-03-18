@@ -1,18 +1,6 @@
 import pandas as pd
-from typing import TypedDict
 
-class Candlestick(TypedDict):
-    Date: pd.Timestamp  # Timestamps for date
-    Open: float         # Open prices
-    High: float         # High prices
-    Low: float          # Low prices
-    Close: float        # Close prices
-    Volume: float       # Volume data
-
-    def makeCandlestickDataFrame(Candlesticks):
-        return pd.DataFrame(Candlesticks)
-
-class Position(TypedDict):
+class Position():
     def __init__(
             self,
             symbol: str,

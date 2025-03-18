@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from .dataTypes import Position
+from .data.position import Position
 from typing import Callable, Optional
 
 

@@ -1,25 +1,24 @@
-import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
-from ..dataTypes import Position
+from ..data import (PriceSeries, Position)
 from ..custom import myLayout
 
 
 class Plotting():
     """
-    A single plot
-    This is meant to represent an asset with info, data, ploting and analysis methods
-    Every instance methods return the instance itself (exept .show()), allowing chain calling
+    A single plot, meant to represent an asset with info, data and analysis methods.
+    Every instance methods return the instance itself (exept .show() which is supposed to run last), 
+    allowing chain calling
     """
 
     def __init__(self,
-            ohlc_data_frame: pd.DataFrame = pd.DataFrame(),
+            priceSeries: PriceSeries,
             main_figure_rows: int = 3,
             main_figure_cols: int = 1
         ):
 
-        self.ohlc_data_frame = ohlc_data_frame
+        self.priceSeries = priceSeries
         self.main_figure = make_subplots(
             rows=main_figure_rows, 
             cols=main_figure_cols, 
@@ -31,11 +30,11 @@ class Plotting():
     def plot_asset_chart(self):
         self.main_figure.add_trace( 
             go.Candlestick(
-                x=self.ohlc_data_frame.index,
-                open=self.ohlc_data_frame['Open'],
-                high=self.ohlc_data_frame['High'],
-                low=self.ohlc_data_frame['Low'],
-                close=self.ohlc_data_frame['Close']
+                x=self.priceSeries.candles.index,
+                open=self.priceSeries.candles['open'],
+                high=self.priceSeries.candles['high'],
+                low=self.priceSeries.candles['low'],
+                close=self.priceSeries.candles['close']
             ),
         )
         return self
@@ -68,13 +67,13 @@ class Plotting():
         return self
 
     def plotPosition(self, pos: Position):
-        if(pos['is_open']):
+        if(pos.is_open):
             self.main_figure.add_trace(
                 go.Scatter(
-                    x=[pos['open_timeframe']], 
-                    y=[pos['entry_price']], 
+                    x=[pos.open_timeframe], 
+                    y=[pos.entry_price], 
                     mode='markers',
-                    marker=dict(size=[10], color=('green' if pos['position_side'] == 'LONG' else 'red'))),
+                    marker=dict(size=[10], color=('green' if pos.position_side == 'LONG' else 'red'))),
                 row=1,
                 col=1
             )
