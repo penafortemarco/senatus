@@ -1,4 +1,3 @@
-import numpy as np
 import pandas as pd
 from .data.position import Position
 from typing import Callable, Optional
@@ -39,6 +38,6 @@ class RSI_Margins_Strategy(Strategy):
     def __init__(self, lowerMargin: float = 30, upperMargin: float = 70):
         
         super().__init__(
-            cOL = lambda wrsi, na: (wrsi['Value'].iat[-1] <= lowerMargin) if not wrsi.empty else False, 
-            cCL = lambda wrsi, na: (wrsi['Value'].iat[-1] >= upperMargin) if not wrsi.empty else False,
+            cOL = lambda wrsi, na: (wrsi['value'].iat[-1] <= lowerMargin) if not wrsi.empty else False, 
+            cCL = lambda wrsi, na: (wrsi['value'].iat[-1] >= upperMargin) if not wrsi.empty else False,
         )

@@ -6,7 +6,7 @@ def processRawCandlestickData(rawCD: list) -> list[Candlestick]:
     """
     Transforms raw data from Binance kline API to Candlestick type
     """
-
+    
     return [
         Candlestick(
             timestamp = pd.Timestamp(cd[0], unit='ms'),

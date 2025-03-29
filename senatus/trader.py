@@ -1,6 +1,5 @@
-import pandas as pd
-from .data import PriceSeries
-from .plotting import Plotting
+from .data import PriceSeries, MetricSeries
+from .plotting import Plot
 from .data import Position
 from .strategies import Strategy
 
@@ -24,9 +23,9 @@ class TestTrader:
     def close_position(self, p_timeframe):
         return next((pos for pos in self.open_positions if pos.open_timeframe == p_timeframe), None)
     
-    def operate_strategy(self, ind, strategy: Strategy, plot: Plotting):
+    def operate_strategy(self, ind: MetricSeries, strategy: Strategy, plot: Plot):
         for i in range(len(self.df)):
-            resp = strategy.check_condition(ind[0:i])
+            resp = strategy.check_condition(ind.series[0:i])
             if(resp.count('OPEN_LONG')):
                 pos = self.open_position(Position(
                     symbol='btcusd',

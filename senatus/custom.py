@@ -1,7 +1,8 @@
 from plotly.graph_objects import (Figure, Layout)
 from plotly.graph_objs.layout import (XAxis, Margin)
 
-myLayout = Layout(
+stdLayout = Layout(
+    title='btcudst',
     paper_bgcolor='#0a0a0a',
     plot_bgcolor='#0a0a0a',
     margin={

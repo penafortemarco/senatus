@@ -2,10 +2,6 @@ import pandas as pd
 from .candlestick import Candlestick
 
 class PriceSeries:
-    
-    candles: pd.DataFrame
-    pair: str
-    timeframe: str
 
     def __init__(
         self,

@@ -1,20 +1,20 @@
 from senatus.api.binanceAPI import (getPastCandlesTimeSeries)
 from senatus.data.indicators import (getMAV, getEMA, getWRSI)
-from senatus.plotting.plotting import Plotting
+from senatus.plotting.plotting import Plot
 from senatus.trader import TestTrader
 from senatus.strategies import RSI_Margins_Strategy
 
-#Params
+# Define your parameters
 pair = 'bnbusdt'
 timeframe = '1h'
 
-#Get past data
+
+# Get past data
 priceSeries = getPastCandlesTimeSeries(pair, timeframe)
 
-#Subscribe to stream data
 
-#Plot data
-my_plot = Plotting(priceSeries)
+# Plot data
+my_plot = Plot(priceSeries)
 
 my_plot.plot_asset_chart()
 

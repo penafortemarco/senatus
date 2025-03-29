@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "senatus"
-version = "0.0.1"
+version = "0.0.5"
 description = "Senatus: a trading and market analisys lib"
 authors = [
   { name = "Marco Penaforte", email = "penafortemarco@gmail.com" }
@@ -12,7 +12,7 @@ authors = [
 readme = "README.md"
 license = { file = "LICENSE.txt" }
 requires-python = ">=3.10"
-keywords = ["trading", "market-analysis", "quant", "arcana", "roman"]
+keywords = ["trading", "market-analysis"]
 
 classifiers = [
   "Programming Language :: Python :: 3.10",
@@ -22,13 +22,14 @@ classifiers = [
 ]
 
 dependencies = [
-  "numpy>=1.23",
-  "pandas>=1.5",
-  "plotly>=0.0.1",
+  "numpy>=2.2.3",
+  "pandas>=2.2.3",
+  "plotly>=5.24.0",
   "binance-connector>=3.12.0",
-  "binance-futures-connector>=3.12.0",
+  "binance-futures-connector>=4.1.0",
 ]
 
-[tool.setuptools]
-packages = ["senatus"]
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["senatus*"]  # Ensures all subpackages are included
 
