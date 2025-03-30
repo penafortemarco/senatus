@@ -1,6 +1,6 @@
 from senatus.api.binanceAPI import (getPastCandlesTimeSeries)
 from senatus.indicators.indicators import (getMAV, getEMA, getWRSI, findTop )
-from senatus.plotting.plotting import Plot
+from senatus.indicators import Plot
 from senatus.trader import TestTrader
 from senatus.strategies import RSI_Margins_Strategy
 

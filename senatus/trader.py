@@ -1,5 +1,5 @@
 from .data import PriceSeries, MetricSeries
-from .plotting import Plot
+from .plot import Plot
 from .data import Position
 from .strategies import Strategy
 
