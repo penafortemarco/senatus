@@ -1,5 +1,5 @@
 from senatus.api.binanceAPI import (getPastCandlesTimeSeries)
-from senatus.data.indicators import (getMAV, getEMA, getWRSI)
+from senatus.indicators.indicators import (getMAV, getEMA, getWRSI, findTop )
 from senatus.plotting.plotting import Plot
 from senatus.trader import TestTrader
 from senatus.strategies import RSI_Margins_Strategy
@@ -22,6 +22,7 @@ wrsi = getWRSI(priceSeries, 8)
 
 my_plot.plot_indicator_dif_chart(wrsi)
 
+print()
 
 tt = TestTrader(priceSeries, 1000)
 tt.operate_strategy(wrsi, RSI_Margins_Strategy(15, 80), my_plot)

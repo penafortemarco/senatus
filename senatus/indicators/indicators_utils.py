@@ -35,3 +35,14 @@ def calcWRSI(data: pd.Series, period: int):
     smmaD = calcSMMA(downs, period)
     rs = smmaU.div(smmaD.replace(0, np.nan), fill_value=0)  # Avoid division by zero
     return rs.apply(lambda elem: 100 - (100/(1+elem)))
+
+def findTop(data: pd.Series, window: int, middle_shift: int):
+    top_indicator = pd.Series(dtype=bool)
+    for index in data:
+        if(index < window - middle_shift):
+            top_indicator.loc[index] = False
+            pass
+
+        shifted_window = data.iloc[(index - np.ceil(window/2) - middle_shift):(index + np.floor(window/2) + middle_shift)]
+        max_neighbour = shifted_window.max()
+        top_indicator.loc[index] = (data.loc[index] > max_neighbour)
