@@ -1,9 +1,6 @@
-from .data import PriceSeries, MetricSeries
+from .data import PriceSeries, MetricSeries, Position
 from .plot import Plot
-from .data import Position
 from .strategies import Strategy
-
-
 
 class TestTrader:
 
@@ -28,7 +25,7 @@ class TestTrader:
             resp = strategy.check_condition(ind.series[0:i])
             if(resp.count('OPEN_LONG')):
                 pos = self.open_position(Position(
-                    symbol='btcusd',
+                    symbol=plot.priceSeries.pair,
                     is_open=True,
                     type='spot',
                     position_side='LONG',
@@ -39,10 +36,32 @@ class TestTrader:
                 plot.plotPosition(pos)
             if(resp.count('CLOSE_LONG')):
                 pos = self.open_position(Position(
-                    symbol='btcusd',
+                    symbol=plot.priceSeries.pair,
                     is_open=True,
                     type='spot',
                     position_side='SHORT',
+                    position_size=1,
+                    entry_price=self.df['close'].iat[i],
+                    open_timeframe=self.df.index[i]
+                ))
+                plot.plotPosition(pos)
+            if(resp.count('OPEN_SHORT')):
+                pos = self.open_position(Position(
+                    symbol=plot.priceSeries.pair,
+                    is_open=True,
+                    type='spot',
+                    position_side='SHORT',
+                    position_size=1,
+                    entry_price=self.df['close'].iat[i],
+                    open_timeframe=self.df.index[i]
+                ))
+                plot.plotPosition(pos)
+            if(resp.count('CLOSE_SHORT')):
+                pos = self.open_position(Position(
+                    symbol=plot.priceSeries.pair,
+                    is_open=True,
+                    type='spot',
+                    position_side='LONG',
                     position_size=1,
                     entry_price=self.df['close'].iat[i],
                     open_timeframe=self.df.index[i]

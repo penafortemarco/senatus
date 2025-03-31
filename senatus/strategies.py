@@ -1,29 +1,29 @@
 import pandas as pd
-from .data.position import Position
+from .data import Position, MetricSeries
 from typing import Callable, Optional
 
 
 class Strategy:
 
 
-    conditionToOpenLong: Optional[Callable[[pd.DataFrame, list[Position]], bool]]
-    conditionToCloseLong: Optional[Callable[[pd.DataFrame, list[Position]], bool]]
-    conditionToOpenShort: Optional[Callable[[pd.DataFrame, list[Position]], bool]]
-    conditionToCloseShort:Optional[Callable[[pd.DataFrame, list[Position]], bool]]
+    conditionToOpenLong: Optional[Callable[[MetricSeries, list[Position]], bool]]
+    conditionToCloseLong: Optional[Callable[[MetricSeries, list[Position]], bool]]
+    conditionToOpenShort: Optional[Callable[[MetricSeries, list[Position]], bool]]
+    conditionToCloseShort:Optional[Callable[[MetricSeries, list[Position]], bool]]
     
     def __init__(
             self, 
-            cOL: Optional[Callable[[pd.DataFrame, list[Position]], bool]] = lambda a, b: False, 
-            cCL: Optional[Callable[[pd.DataFrame, list[Position]], bool]] = lambda a, b: False, 
-            cOS: Optional[Callable[[pd.DataFrame, list[Position]], bool]] = lambda a, b: False, 
-            cCS: Optional[Callable[[pd.DataFrame, list[Position]], bool]] = lambda a, b: False
+            cOL: Optional[Callable[[MetricSeries, list[Position]], bool]] = lambda a, b: False, 
+            cCL: Optional[Callable[[MetricSeries, list[Position]], bool]] = lambda a, b: False, 
+            cOS: Optional[Callable[[MetricSeries, list[Position]], bool]] = lambda a, b: False, 
+            cCS: Optional[Callable[[MetricSeries, list[Position]], bool]] = lambda a, b: False
         ):
         self.conditionToOpenLong = cOL
         self.conditionToCloseLong = cCL
         self.conditionToOpenShort = cOS
         self.conditionToCloseShort = cCS
 
-    def check_condition(self, ind, positions: list[Position] = []):
+    def check_condition(self, ind: pd.Series, positions: list[Position] = []):
         resp = []
         if self.conditionToOpenLong(ind, positions): resp.append('OPEN_LONG')
         if self.conditionToCloseLong(ind, positions): resp.append('CLOSE_LONG')
@@ -40,4 +40,11 @@ class RSI_Margins_Strategy(Strategy):
         super().__init__(
             cOL = lambda wrsi, na: (wrsi['value'].iat[-1] <= lowerMargin) if not wrsi.empty else False, 
             cCL = lambda wrsi, na: (wrsi['value'].iat[-1] >= upperMargin) if not wrsi.empty else False,
+        )
+
+class BoolIndicatorStrategy(Strategy):
+
+    def __init__(self):
+        super().__init__(
+            cOS = lambda is_top, na: (is_top['value'].iat[-1]) if not is_top.empty else False
         )

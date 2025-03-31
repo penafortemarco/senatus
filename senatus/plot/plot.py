@@ -1,8 +1,8 @@
 import pandas as pd
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
-from ..data import (PriceSeries, Position)
-from ..custom import myLayout
+from ..data import (PriceSeries, MetricSeries, Position)
+from ..custom import stdLayout
 
 
 class Plot():
@@ -39,7 +39,7 @@ class Plot():
         )
         return self
 
-    def apply_custom(self, layout = myLayout):
+    def apply_custom(self, layout = stdLayout):
         self.main_figure.update(layout_xaxis_rangeslider_visible=False)
         self.main_figure.update_layout(layout)
         return self
@@ -47,19 +47,19 @@ class Plot():
     def show(self):
         self.main_figure.show()
 
-    def plot_indicator_same_chart(self, ind: pd.DataFrame):
+    def plot_indicator_same_chart(self, ind: MetricSeries):
         self.main_figure.add_trace(
             go.Scatter(
-                x=ind.index,
-                y=ind['Value']
+                x=ind.series.index,
+                y=ind.series['value']
             )  
         )
         return self
     
-    def plot_indicator_dif_chart(self, ind: pd.DataFrame, row=3, col=1):
+    def plot_indicator_dif_chart(self, ind: MetricSeries, row=3, col=1):
         self.main_figure.add_trace(
             go.Scatter(
-                x=ind.index, y=ind['Value']
+                x=ind.series.index, y=ind.series['value']
             ),
             row=row,
             col=col
