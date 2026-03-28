@@ -5,7 +5,7 @@ from senatus.test_trader import TestTrader
 from senatus.strategies import RSI_Margins_Strategy, BoolIndicatorStrategy
 
 # Define your parameters
-pair = 'bnbusdt'
+pair = 'btcusdt'
 timeframe = '1h'
 
 
@@ -26,8 +26,8 @@ is_top = find_top(priceSeries, 25, 0)
 
 tt = TestTrader(priceSeries, 1000)
 
-#tt.operate_strategy(is_top, BoolIndicatorStrategy(), my_plot)
+tt.operate_strategy(is_top, BoolIndicatorStrategy(), my_plot)
 
-#tt.operate_strategy(wrsi, RSI_Margins_Strategy(15, 80), my_plot)
+tt.operate_strategy(wrsi, RSI_Margins_Strategy(15, 80), my_plot)
 
 my_plot.apply_custom().show()
